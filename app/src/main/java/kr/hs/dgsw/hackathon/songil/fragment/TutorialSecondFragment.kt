@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import kr.hs.dgsw.hackathon.songil.R
+import kr.hs.dgsw.hackathon.songil.activity.AuthActivity
 import kr.hs.dgsw.hackathon.songil.activity.MainActivity
 import kr.hs.dgsw.hackathon.songil.databinding.FragmentTutorialSecondBinding
 import kr.hs.dgsw.hackathon.songil.util.viewBindings
@@ -26,7 +27,7 @@ class TutorialSecondFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.btnSubmit.setOnClickListener {
-            val intent = Intent(context, MainActivity::class.java)
+            val intent = Intent(context, AuthActivity::class.java)
             startActivity(intent)
             requireActivity().finish()
         }
