@@ -19,7 +19,7 @@ class TalentDonationListAdapter(
         "#FFE999",
         "#FFD29D",
         "#FFACB6",
-        "#C8E8FF",
+        "#BBE2FF",
         "#D6B7FF",
         "#C2F3BA"
     )
