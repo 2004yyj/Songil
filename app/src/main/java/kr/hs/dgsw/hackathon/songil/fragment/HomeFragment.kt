@@ -64,6 +64,8 @@ class HomeFragment : Fragment() {
             PersuadeFragment(),
             EntiretyFragment()
         ))
+
+        binding.viewPagerHome.isSaveEnabled = false
         binding.viewPagerHome.adapter = viewPagerAdapter
 
         TabLayoutMediator(binding.tabLayoutHome, binding.viewPagerHome) { tab, position ->
