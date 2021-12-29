@@ -2,14 +2,12 @@ package kr.hs.dgsw.hackathon.songil.adapter.recyclerview
 
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.graphics.drawable.ColorStateListDrawable
-import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import kr.hs.dgsw.hackathon.songil.databinding.ItemTalentDonationTabChildListBinding
-import kr.hs.dgsw.hackathon.songil.entity.post.PostElement
+import kr.hs.dgsw.hackathon.songil.entity.postDTO.PostElement
 import kotlin.math.abs
 import kotlin.random.Random
 
@@ -33,6 +31,7 @@ class TalentDonationListAdapter(
             val colorIndex = abs(Random(System.currentTimeMillis()).nextInt() % 6)
             binding.constraintBackgroundTalentDonationTabChildList.background = ColorDrawable(Color.parseColor(colorCode[colorIndex]))
             binding.tvTitleDonationItem.text = postElement.post.title
+            binding.ivIconDonationItem.load(postElement.post.icon)
         }
     }
 

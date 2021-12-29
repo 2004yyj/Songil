@@ -1,4 +1,4 @@
-package kr.hs.dgsw.hackathon.songil.entity.post
+package kr.hs.dgsw.hackathon.songil.entity.postDTO
 
 data class Post(
     val category_id: Int,

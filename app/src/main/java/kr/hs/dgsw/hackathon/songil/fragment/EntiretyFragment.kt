@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import kr.hs.dgsw.hackathon.songil.R
 import kr.hs.dgsw.hackathon.songil.adapter.recyclerview.HomeViewAdapter
@@ -37,7 +38,10 @@ class EntiretyFragment : Fragment() {
             adapter.submitNewsList(it)
         }
         viewModel.getTalentDonationList().observe(viewLifecycleOwner) {
-            adapter.submitDonationList(it.posts)
+            it.posts?.let { posts -> adapter.submitDonationList(posts) }
+        }
+        viewModel.getIsFailure().observe(viewLifecycleOwner) {
+            Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
         }
     }
 

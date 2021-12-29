@@ -10,7 +10,7 @@ import kr.hs.dgsw.hackathon.songil.databinding.ItemTalentDonationTabBinding
 import kr.hs.dgsw.hackathon.songil.decorator.GridRecyclerViewDecorator
 import kr.hs.dgsw.hackathon.songil.decorator.LinearRecyclerViewDecorator
 import kr.hs.dgsw.hackathon.songil.entity.News
-import kr.hs.dgsw.hackathon.songil.entity.post.PostElement
+import kr.hs.dgsw.hackathon.songil.entity.postDTO.PostElement
 
 class HomeViewAdapter(): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 

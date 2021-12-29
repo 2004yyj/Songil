@@ -3,13 +3,24 @@ package kr.hs.dgsw.hackathon.songil.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
 import kr.hs.dgsw.hackathon.songil.entity.News
-import kr.hs.dgsw.hackathon.songil.entity.post.Post
-import kr.hs.dgsw.hackathon.songil.entity.post.PostElement
-import kr.hs.dgsw.hackathon.songil.entity.post.PostEntity
+import kr.hs.dgsw.hackathon.songil.entity.postDTO.Post
+import kr.hs.dgsw.hackathon.songil.entity.postDTO.PostElement
+import kr.hs.dgsw.hackathon.songil.entity.postDTO.PostEntity
 import kr.hs.dgsw.hackathon.songil.entity.user.User
+import kr.hs.dgsw.hackathon.songil.network.`object`.NetworkObject
 
 class PersuadeViewModel : ViewModel() {
+    private val compositeDisposable = CompositeDisposable()
+    private val postService = NetworkObject.postService
+
+    private val _isFailure by lazy {
+        MutableLiveData<String>()
+    }
+
     private val _newsList by lazy {
         MutableLiveData<List<News>>(arrayListOf(
             News(
@@ -23,23 +34,41 @@ class PersuadeViewModel : ViewModel() {
         ))
     }
 
-        private val _talentDonationList by lazy {
-            MutableLiveData(
-                PostEntity("성공", arrayListOf(
-                    PostElement(Post(1, "응애", "2021", "디테일", 1, "","응애가 사람 잡는다던데", "23244"), User("asdf", "asdf", "asdf")),
-                    PostElement(Post(1, "응애", "2021", "디테일", 1, "","응애가 사람 잡는다던데", "23244"), User("asdf", "asdf", "asdf")),
-                    PostElement(Post(1, "응애", "2021", "디테일", 1, "","응애가 사람 잡는다던데", "23244"), User("asdf", "asdf", "asdf")),
-                    PostElement(Post(1, "응애", "2021", "디테일", 1, "","응애가 사람 잡는다던데", "23244"), User("asdf", "asdf", "asdf")),
-                    PostElement(Post(1, "응애", "2021", "디테일", 1, "","응애가 사람 잡는다던데", "23244"), User("asdf", "asdf", "asdf")),
-                ))
-            )
+    private val _talentDonationList by lazy {
+        MutableLiveData<PostEntity>().apply {
+            loadTalentDonationList()
         }
+    }
 
-        fun getNewsList(): LiveData<List<News>> {
-            return _newsList
-        }
+    fun getIsFailure(): LiveData<String> {
+        return _isFailure
+    }
 
-        fun getTalentDonationList(): LiveData<PostEntity> {
-            return _talentDonationList
-        }
+    fun getNewsList(): LiveData<List<News>> {
+        return _newsList
+    }
+
+    fun getTalentDonationList(): LiveData<PostEntity> {
+        return _talentDonationList
+    }
+
+    private fun loadTalentDonationList() {
+        postService.getPosts("3")
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(Schedulers.io())
+            .subscribe({
+                _talentDonationList.value = it
+            }, {
+                _isFailure.value = it.message
+            }).apply {
+                compositeDisposable.add(this)
+            }
+
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+
+        compositeDisposable.dispose()
+    }
 }
