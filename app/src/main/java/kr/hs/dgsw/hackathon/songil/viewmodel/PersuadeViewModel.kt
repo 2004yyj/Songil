@@ -3,10 +3,12 @@ package kr.hs.dgsw.hackathon.songil.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.google.gson.Gson
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import kr.hs.dgsw.hackathon.songil.entity.News
+import kr.hs.dgsw.hackathon.songil.entity.message.Message
 import kr.hs.dgsw.hackathon.songil.entity.postDTO.Post
 import kr.hs.dgsw.hackathon.songil.entity.postDTO.PostElement
 import kr.hs.dgsw.hackathon.songil.entity.postDTO.PostEntity
@@ -57,7 +59,11 @@ class PersuadeViewModel : ViewModel() {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
             .subscribe({
-                _talentDonationList.value = it
+                if (it.isSuccessful) {
+                    _talentDonationList.value = it.body()
+                } else {
+                    _isFailure.value = Gson().fromJson(it.errorBody()?.charStream(), Message::class.java).message
+                }
             }, {
                 _isFailure.value = it.message
             }).apply {
