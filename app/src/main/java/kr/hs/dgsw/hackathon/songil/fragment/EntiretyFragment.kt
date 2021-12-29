@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import kr.hs.dgsw.hackathon.songil.R
+import kr.hs.dgsw.hackathon.songil.adapter.recyclerview.HomeViewAdapter
 import kr.hs.dgsw.hackathon.songil.databinding.FragmentEntiretyBinding
 import kr.hs.dgsw.hackathon.songil.util.viewBindings
 import kr.hs.dgsw.hackathon.songil.viewmodel.EntiretyViewModel
@@ -15,12 +16,29 @@ import kr.hs.dgsw.hackathon.songil.viewmodel.EntiretyViewModel
 class EntiretyFragment : Fragment() {
     private val binding by viewBindings(FragmentEntiretyBinding::inflate)
     private val viewModel: EntiretyViewModel by viewModels()
+    private lateinit var adapter: HomeViewAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
         return binding.root
+    }
+
+    override fun onPause() {
+        super.onPause()
+        binding.rvEntirety.scrollToPosition(0)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        adapter = HomeViewAdapter()
+        binding.rvEntirety.adapter = adapter
+        viewModel.getNewsList().observe(viewLifecycleOwner) {
+            adapter.submitNewsList(it)
+        }
+        viewModel.getTalentDonationList().observe(viewLifecycleOwner) {
+            adapter.submitDonationList(it.posts)
+        }
     }
 
 }

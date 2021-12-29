@@ -12,4 +12,5 @@
     <color name="line">#E2E7EE</color>
     <color name="light_background">#F5F5F5</color>
     <color name="tutorial_background">#242933</color>
+    <color name="box_background">#F3F5F8</color>
 </resources>
