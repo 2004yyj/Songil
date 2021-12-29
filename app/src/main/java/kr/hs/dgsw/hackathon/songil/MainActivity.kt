@@ -1,12 +1,11 @@
-package kr.hs.dgsw.hackathon.songil.activity
+package kr.hs.dgsw.hackathon.songil
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import kr.hs.dgsw.hackathon.songil.R
 
-class TutorialActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_tutorial)
+        setContentView(R.layout.activity_main)
     }
 }
