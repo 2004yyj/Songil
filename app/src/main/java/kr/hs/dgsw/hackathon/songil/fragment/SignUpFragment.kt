@@ -3,6 +3,7 @@ package kr.hs.dgsw.hackathon.songil.fragment
 import android.content.Intent
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,15 +12,14 @@ import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import kr.hs.dgsw.hackathon.songil.R
-import kr.hs.dgsw.hackathon.songil.SharedPreference
 import kr.hs.dgsw.hackathon.songil.activity.MainActivity
-import kr.hs.dgsw.hackathon.songil.databinding.FragmentSignInBinding
+import kr.hs.dgsw.hackathon.songil.databinding.FragmentSignUpBinding
 import kr.hs.dgsw.hackathon.songil.util.viewBindings
-import kr.hs.dgsw.hackathon.songil.viewmodel.SignInViewModel
+import kr.hs.dgsw.hackathon.songil.viewmodel.SignUpViewModel
 
-class SignInFragment : Fragment() {
-    private val binding by viewBindings(FragmentSignInBinding::inflate)
-    private val viewModel: SignInViewModel by viewModels()
+class SignUpFragment : Fragment() {
+    private val binding by viewBindings(FragmentSignUpBinding::inflate)
+    private val viewModel: SignUpViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,16 +37,11 @@ class SignInFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.btnSignUpSignIn.setOnClickListener {
-            findNavController().navigate(R.id.action_signInFragment_to_signUpFragment)
-        }
-
-        binding.btnLoginSignIn.setOnClickListener {
-            viewModel.executeSignIn().observe(viewLifecycleOwner) {
-                SharedPreference.token = it.token
-                val intent = Intent(context, MainActivity::class.java)
-                startActivity(intent)
-                requireActivity().finish()
+        binding.btnRegisterSignUp.setOnClickListener {
+            viewModel.executeSignUp().observe(viewLifecycleOwner) {
+                Log.d("TAG", "onViewCreated: $it")
+                findNavController().navigateUp()
+                Toast.makeText(context, "회원가입에 성공했습니다.", Toast.LENGTH_SHORT).show()
             }
         }
 

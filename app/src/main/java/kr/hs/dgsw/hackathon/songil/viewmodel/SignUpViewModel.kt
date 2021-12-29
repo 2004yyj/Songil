@@ -8,21 +8,22 @@ import com.google.gson.Gson
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import kr.hs.dgsw.hackathon.songil.entity.auth.SignIn
+import kr.hs.dgsw.hackathon.songil.entity.auth.SignUp
 import kr.hs.dgsw.hackathon.songil.entity.message.Message
-import kr.hs.dgsw.hackathon.songil.entity.tokenDTO.Token
 import kr.hs.dgsw.hackathon.songil.network.`object`.NetworkObject
 
-class SignInViewModel : ViewModel() {
+class SignUpViewModel : ViewModel() {
     private val compositeDisposable = CompositeDisposable()
     private val authService = NetworkObject.authService
 
     val id = ObservableField<String>()
     val pw = ObservableField<String>()
+    val name = ObservableField<String>()
+    val phoneNumber = ObservableField<String>()
 
-    private val _signIn by lazy {
-        MutableLiveData<Token>().apply {
-            signIn()
+    private val _signUp by lazy {
+        MutableLiveData<String>().apply {
+            signUp()
         }
     }
 
@@ -30,30 +31,33 @@ class SignInViewModel : ViewModel() {
         MutableLiveData<String>()
     }
 
-    fun executeSignIn(): LiveData<Token> {
-        return _signIn
-    }
-
     fun getIsFailure(): LiveData<String> {
         return _isFailure
     }
 
-    private fun signIn() {
+    fun executeSignUp(): LiveData<String> {
+        return _signUp
+    }
+
+    private fun signUp() {
         val id = id.get() ?: ""
         val pw = pw.get() ?: ""
-        authService.postSignIn(SignIn(id, pw))
+        val name = name.get() ?: ""
+        val phoneNumber = phoneNumber.get() ?: ""
+
+        authService.postSignUp(SignUp(id, name, pw, phoneNumber))
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
             .subscribe({
                 if (it.isSuccessful) {
-                    _signIn.value = it.body()
+                    _signUp.value = "성공"
                 } else {
                     _isFailure.value = Gson().fromJson(it.errorBody()?.charStream(), Message::class.java).message
                 }
             }, {
+                it.printStackTrace()
                 _isFailure.value = it.message
-            })
-            .apply {
+            }).apply {
                 compositeDisposable.add(this)
             }
     }

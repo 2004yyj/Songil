@@ -59,10 +59,10 @@ class HomeFragment : Fragment() {
         )
 
         viewPagerAdapter = ViewPagerAdapter(this, arrayListOf(
+            EntiretyFragment(),
             IndecisivenessFragment(),
             CrammingFragment(),
-            PersuadeFragment(),
-            EntiretyFragment()
+            PersuadeFragment()
         ))
 
         binding.viewPagerHome.isSaveEnabled = false
