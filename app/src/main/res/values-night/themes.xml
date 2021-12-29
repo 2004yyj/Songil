@@ -29,4 +29,10 @@
         <!-- Customize your theme here. -->
         <item name="fontFamily">@font/helvetica</item>
     </style>
+
+    <style name="TabTextStyle">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/color_selector</item>
+    </style>
 </resources>

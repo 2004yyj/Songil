@@ -8,5 +8,8 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="main">#0075FF</color>
+    <color name="disabled">#ADB5C0</color>
+    <color name="line">#E2E7EE</color>
+    <color name="light_background">#F5F5F5</color>
     <color name="tutorial_background">#242933</color>
 </resources>
